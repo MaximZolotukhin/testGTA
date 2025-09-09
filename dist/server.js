@@ -10,6 +10,8 @@ AppDataSource.initialize()
     console.log('✅ Data Source has been initialized!');
     const userService = new UserService();
     const authController = new AuthController(userService);
+    app.use(express.json());
+    app.use(express.static('public'));
     app.post('/api/register', (req, res) => {
         authController.register(req, res);
     });

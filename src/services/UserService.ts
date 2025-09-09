@@ -9,6 +9,8 @@ export class UserService {
     user.password = dto.password // TODO нужно релазовать хеширование
 
     const userRepository = AppDataSource.getRepository(User)
-    return await userRepository.save(user)
+    const savedUser = await userRepository.save(user)
+
+    return savedUser
   }
 }

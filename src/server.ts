@@ -18,6 +18,9 @@ AppDataSource.initialize()
     const userService = new UserService()
     const authController = new AuthController(userService)
 
+    app.use(express.json())
+    app.use(express.static('public'))
+
     // Роут для регистрации
     app.post('/api/register', (req, res) => {
       authController.register(req, res)

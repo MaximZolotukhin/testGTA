@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { RegisterUserDto } from '../dto/RegisterUserDto'
-import { UserService } from '../services/UserService'
+import { RegisterUserDto } from '../dto/RegisterUserDto.js'
+import { UserService } from '../services/UserService.js'
 
 export class AuthController {
   constructor(private userService: UserService) {}

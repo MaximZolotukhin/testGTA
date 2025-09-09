@@ -6,7 +6,10 @@ export class UserService {
         user.name = dto.name;
         user.email = dto.email;
         user.password = dto.password;
+        console.log('Попытка сохранить пользователя:', user);
         const userRepository = AppDataSource.getRepository(User);
-        return await userRepository.save(user);
+        const savedUser = await userRepository.save(user);
+        console.log('Пользователь сохранён:', savedUser);
+        return savedUser;
     }
 }
