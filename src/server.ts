@@ -26,6 +26,11 @@ AppDataSource.initialize()
       authController.register(req, res)
     })
 
+    // Роут для входа
+    app.post('/api/login', (req, res) => {
+      authController.login(req, res)
+    })
+
     app.listen(PORT, () => {
       console.log(`🚀 Server started on http://localhost:${PORT}`)
     })

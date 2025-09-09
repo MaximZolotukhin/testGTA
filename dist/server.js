@@ -15,6 +15,9 @@ AppDataSource.initialize()
     app.post('/api/register', (req, res) => {
         authController.register(req, res);
     });
+    app.post('/api/login', (req, res) => {
+        authController.login(req, res);
+    });
     app.listen(PORT, () => {
         console.log(`🚀 Server started on http://localhost:${PORT}`);
     });

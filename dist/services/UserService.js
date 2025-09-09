@@ -6,10 +6,16 @@ export class UserService {
         user.name = dto.name;
         user.email = dto.email;
         user.password = dto.password;
-        console.log('Попытка сохранить пользователя:', user);
         const userRepository = AppDataSource.getRepository(User);
         const savedUser = await userRepository.save(user);
-        console.log('Пользователь сохранён:', savedUser);
         return savedUser;
+    }
+    async validate(email, password) {
+        const userRepository = AppDataSource.getRepository(User);
+        const user = await userRepository.findOne({ where: { email } });
+        if (user && user.password === password) {
+            return user;
+        }
+        return null;
     }
 }

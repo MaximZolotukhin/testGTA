@@ -13,4 +13,15 @@ export class UserService {
 
     return savedUser
   }
+
+  async validate(email: string, password: string): Promise<User | null> {
+    const userRepository = AppDataSource.getRepository(User)
+    const user = await userRepository.findOne({ where: { email } })
+
+    if (user && user.password === password) {
+      return user
+    }
+
+    return null
+  }
 }
