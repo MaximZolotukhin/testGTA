@@ -1,0 +1,26 @@
+{
+  "name": "gta5testtask",
+  "version": "1.0.0",
+  "description": "Тестовое задание",
+  "license": "ISC",
+  "author": "Veles",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc && node dist/server.js",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "typeorm": "^0.3.26"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
