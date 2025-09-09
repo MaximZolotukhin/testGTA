@@ -14,6 +14,6 @@ AppDataSource.initialize()
     })
   })
   .catch((error) => {
-    console.error('❌ Ошибка подключения к БД:', error)
+    console.error('Ошибка подключения к БД:', error)
     process.exit(1) // Завершаем процесс, если БД не подключилась
   })

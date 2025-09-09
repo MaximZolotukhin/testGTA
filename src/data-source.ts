@@ -11,6 +11,6 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: false as const,
   entities: ['dist/model/**/*.js'], // ← модели в папке model, после компиляции — .js
-  migrations: [],
+  migrations: ['dist/migrations/**/*.js'],
   subscribers: [],
 })
