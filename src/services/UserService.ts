@@ -15,13 +15,33 @@ export class UserService {
   }
 
   async validate(email: string, password: string): Promise<User | null> {
-    const userRepository = AppDataSource.getRepository(User)
-    const user = await userRepository.findOne({ where: { email } })
+    console.log('🔍 Начинаем поиск пользователя с email:', email)
 
-    if (user && user.password === password) {
-      return user
+    try {
+      const userRepository = AppDataSource.getRepository(User)
+
+      // Явно выбираем password
+      const user = await userRepository.findOne({
+        where: { email },
+        select: ['id', 'name', 'email', 'password', 'createdAt', 'updatedAt'],
+      })
+
+      if (!user) {
+        return null
+      }
+
+      if (user.password === null || user.password === undefined) {
+        return null
+      }
+
+      if (user.password === password) {
+        return user
+      }
+
+      return null
+    } catch (error) {
+      console.error('Ошибка при поиске пользователя:', error)
+      return null
     }
-
-    return null
   }
 }

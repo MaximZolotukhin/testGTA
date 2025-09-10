@@ -11,11 +11,32 @@ export class UserService {
         return savedUser;
     }
     async validate(email, password) {
-        const userRepository = AppDataSource.getRepository(User);
-        const user = await userRepository.findOne({ where: { email } });
-        if (user && user.password === password) {
-            return user;
+        console.log('🔍 Начинаем поиск пользователя с email:', email);
+        try {
+            const userRepository = AppDataSource.getRepository(User);
+            console.log('📂 Получили репозиторий');
+            const user = await userRepository.findOne({
+                where: { email },
+                select: ['id', 'name', 'email', 'password', 'createdAt', 'updatedAt'],
+            });
+            console.log('✅ Пользователь найден:', user);
+            if (!user) {
+                console.log('❌ Пользователь не найден');
+                return null;
+            }
+            if (user.password === null || user.password === undefined) {
+                console.log('❌ Пароль пустой');
+                return null;
+            }
+            if (user.password === password) {
+                return user;
+            }
+            console.log('❌ Пароли не совпадают');
+            return null;
         }
-        return null;
+        catch (error) {
+            console.error('💥 Ошибка при поиске пользователя:', error);
+            return null;
+        }
     }
 }
