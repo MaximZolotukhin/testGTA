@@ -1,6 +1,7 @@
 import express from 'express';
 import { AppDataSource } from './data-source.js';
 import authRoutes from './routes/auth.routes.js';
+import postRoutes from './routes/post.routes.js';
 import { swaggerSpec } from './swagger.js';
 import swaggerUi from 'swagger-ui-express';
 const app = express();
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/', authRoutes);
+app.use('/', postRoutes);
 AppDataSource.initialize()
     .then(() => {
     console.log('Data Source has been initialized!');

@@ -1,7 +1,8 @@
 import express from 'express'
 import { AppDataSource } from './data-source.js'
-import authRoutes from './routes/auth.routes.js' // ← .js — потому что ESM
-import { swaggerSpec } from './swagger.js' // ← .js
+import authRoutes from './routes/auth.routes.js'
+import postRoutes from './routes/post.routes.js'
+import { swaggerSpec } from './swagger.js'
 import swaggerUi from 'swagger-ui-express'
 
 const app = express()
@@ -16,6 +17,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // Роуты
 app.use('/', authRoutes)
+app.use('/', postRoutes)
 
 // Инициализация БД
 AppDataSource.initialize()
