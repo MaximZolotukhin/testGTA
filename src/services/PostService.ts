@@ -3,6 +3,24 @@ import { User } from '../model/User.js'
 import { AppDataSource } from '../data-source.js'
 
 export class PostService {
+  async findAll(page: number = 1, limit: number = 2): Promise<{ posts: Post[]; total: number; page: number; limit: number }> {
+    const postRepository = AppDataSource.getRepository(Post)
+
+    const [posts, total] = await postRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      relations: ['author'],
+      order: { createdAt: 'DESC' },
+    })
+
+    return {
+      posts,
+      total,
+      page,
+      limit,
+    }
+  }
+
   async create(userId: string, dto: { title: string; content: string }): Promise<Post> {
     const post = new Post()
     post.title = dto.title

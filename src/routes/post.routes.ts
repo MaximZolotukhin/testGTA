@@ -103,4 +103,45 @@ router.delete('/api/posts/:id', (req, res) => {
   postController.delete(req, res)
 })
 
+/**
+ * @swagger
+ * /api/posts:
+ *   get:
+ *     summary: Получить список постов с пагинацией
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Номер страницы
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 2
+ *         description: Количество постов на странице
+ *     responses:
+ *       200:
+ *         description: Список постов
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 posts:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Post'
+ *                 total:
+ *                   type: integer
+ *                 page:
+ *                   type: integer
+ *                 limit:
+ *                   type: integer
+ */
+router.get('/api/posts', (req, res) => {
+  postController.findAll(req, res)
+})
+
 export default router

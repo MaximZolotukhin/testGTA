@@ -2,6 +2,22 @@ export class PostController {
     constructor(postService) {
         this.postService = postService;
     }
+    async findAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 2;
+        try {
+            const result = await this.postService.findAll(page, limit);
+            res.json(result);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                res.status(400).json({ error: error.message });
+            }
+            else {
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        }
+    }
     async create(req, res) {
         const userId = req.body.userId;
         const dto = req.body;

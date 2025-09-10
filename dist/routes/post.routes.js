@@ -13,4 +13,7 @@ router.put('/api/posts/:id', (req, res) => {
 router.delete('/api/posts/:id', (req, res) => {
     postController.delete(req, res);
 });
+router.get('/api/posts', (req, res) => {
+    postController.findAll(req, res);
+});
 export default router;

@@ -1,10 +1,27 @@
 import { Request, Response } from 'express'
+import { GetAllPostDto } from '../dto/GetAllDto.js'
 import { CreatePostDto } from '../dto/CreatePostDto.js'
 import { UpdatePostDto } from '../dto/UpdatePostDto.js'
 import { PostService } from '../services/PostService.js'
 
 export class PostController {
   constructor(private postService: PostService) {}
+
+  async findAll(req: Request, res: Response): Promise<void> {
+    const page = parseInt(req.query.page as string) || 1
+    const limit = parseInt(req.query.limit as string) || 2
+
+    try {
+      const result = await this.postService.findAll(page, limit)
+      res.json(result)
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json({ error: error.message })
+      } else {
+        res.status(500).json({ error: 'Internal server error' })
+      }
+    }
+  }
 
   async create(req: Request, res: Response): Promise<void> {
     // Пока userId берём из тела запроса — позже заменим на JWT

@@ -2,6 +2,21 @@ import { Post } from '../model/Post.js';
 import { User } from '../model/User.js';
 import { AppDataSource } from '../data-source.js';
 export class PostService {
+    async findAll(page = 1, limit = 2) {
+        const postRepository = AppDataSource.getRepository(Post);
+        const [posts, total] = await postRepository.findAndCount({
+            skip: (page - 1) * limit,
+            take: limit,
+            relations: ['author'],
+            order: { createdAt: 'DESC' },
+        });
+        return {
+            posts,
+            total,
+            page,
+            limit,
+        };
+    }
     async create(userId, dto) {
         const post = new Post();
         post.title = dto.title;
