@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { RegisterUserDto } from '../dto/RegisterUserDto.js'
-import { LoginUserDto } from '../dto/LoginUserDto'
+import { LoginUserDto } from '../dto/LoginUserDto.js'
 import { UserService } from '../services/UserService.js'
 
 export class AuthController {

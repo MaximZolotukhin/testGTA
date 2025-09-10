@@ -1,40 +1,32 @@
 import express from 'express'
 import { AppDataSource } from './data-source.js'
-import { AuthController } from './controllers/AuthController.js'
-import { UserService } from './services/UserService.js'
+import authRoutes from './routes/auth.routes.js' // ← .js — потому что ESM
+import { swaggerSpec } from './swagger.js' // ← .js
+import swaggerUi from 'swagger-ui-express'
 
 const app = express()
 const PORT = 3000
 
-// Парсинг JSON
+// Middleware
 app.use(express.json())
+app.use(express.static('public'))
+
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
+// Роуты
+app.use('/', authRoutes)
 
 // Инициализация БД
 AppDataSource.initialize()
   .then(() => {
-    console.log('✅ Data Source has been initialized!')
-
-    // Создаем экземпляр сервиса и контроллера
-    const userService = new UserService()
-    const authController = new AuthController(userService)
-
-    app.use(express.json())
-    app.use(express.static('public'))
-
-    // Роут для регистрации
-    app.post('/api/register', (req, res) => {
-      authController.register(req, res)
-    })
-
-    // Роут для входа
-    app.post('/api/login', (req, res) => {
-      authController.login(req, res)
-    })
+    console.log('Data Source has been initialized!')
 
     app.listen(PORT, () => {
-      console.log(`🚀 Server started on http://localhost:${PORT}`)
+      console.log(`Server started on http://localhost:${PORT}`)
+      console.log(`Swagger UI available at http://localhost:${PORT}/api-docs`)
     })
   })
   .catch((err) => {
-    console.error('❌ Error during Data Source initialization:', err)
+    console.error('Error during Data Source initialization:', err)
   })
